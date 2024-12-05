@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .form {
+            width: 100%;
+                }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input{
+            width: 80%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            background: white;
+            font-size: 15px;
+
+        }
+        #name{
+            width: 20%;
+        }
+        button {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        button::before {
+            content: "➤";
+            transform: scale(2) translate(2.1px,-1.8px);
+
+        
+            
+            /* transform: rotate(90deg); */
+        }
+    </style>
+</head>
+<body>
+    <div class="form">
+        <form method="POST" action="/new">
+            <input type="text" id="name" name="name"  placeholder="Enter your name">
+            <input type="text"   name="text" placeholder="Type a message">
+            <button type="submit" title="/new"></button>
+         </form>
+         
+    </div>
+</body>
+</html>

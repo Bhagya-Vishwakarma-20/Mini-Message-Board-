@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background: #000;
+        }
+        .chatwindow {
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            max-width: 800px;
+            height: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #efeae2;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border-radius: 7.5px;
+            padding: 10px;
+            margin: 10px 0;
+            max-width: 70%;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        .mycard {
+            background-color: #ffffff;
+            border-radius: 7.5px;
+            padding: 10px;
+            margin: 10px 0 ;
+            background: beige;
+            max-width: 70%;
+            transform: translateX(40%);
+
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .username {
+            color: #128c7e;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 4px;
+        }
+
+        .message {
+            color: #111b21;
+            font-size: 1em;
+            margin-bottom: 4px;
+            word-wrap: break-word;
+        }
+
+        .time {
+            color: #667781;
+            font-size: 0.75em;
+            text-align: right;
+        }
+
+        .title {
+            position:sticky;
+            top: -4%;
+            left: -3%;
+            height: 50px;
+            z-index: 10;
+            background-color: #f0f2f5;
+            font-size: 35px;
+            font-weight: 500;
+            color: #111b21;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin: -20px -20px 10px -20px;
+            padding: 10px 16px;
+        }
+
+        .textwritingplace {
+            display: flex;
+
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="chatwindow">
+        <div class="mess">
+            <div class="title">
+                <%=title%>
+            </div>
+            <%for (let i=0; i < messages.length; i++) { %>
+               
+                <div class=<%=messages[i].user.toLowerCase() === "you" ? "mycard" :"card"%> >
+                    <div class="username">
+                        <%=messages[i].user%>
+                    </div>
+                    <div class="message">
+                        <%=messages[i].text%>
+                    </div>
+                    <div class="time">
+                        <%=messages[i].added%>
+                    </div>
+                </div>
+                <%} %>
+        </div>
+        <div class="textwritingplace">
+            <%- include('form')%>
+        </div>
+    </div>
+    <script>
+        // Wait for the DOM to load
+        document.addEventListener("DOMContentLoaded", function () {
+          const overflowDiv = document.querySelector(".chatwindow");
+    
+          // Scroll the div to the bottom
+          overflowDiv.scrollTop = overflowDiv.scrollHeight;
+        });
+      </script>
+</body>
+
+</html>
