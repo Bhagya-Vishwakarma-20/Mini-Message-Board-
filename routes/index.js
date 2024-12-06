@@ -17,8 +17,11 @@ const messages = [
     }
   ];
   
-
+indexRoute.get('/messages', (req, res) => {
+    res.json(messages);
+});
 indexRoute.get('/',(req,res)=>{
+    // res.setHeader('Refresh', '10')
     res.render('index',{title :"My chats",messages})
 })
 indexRoute.get('/new',(req,res)=>{

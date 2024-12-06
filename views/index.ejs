@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        body{
+        body {
             background: #000;
         }
+
         .chatwindow {
             width: 80%;
             display: flex;
@@ -32,11 +33,12 @@
             max-width: 70%;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
         }
+
         .mycard {
             background-color: #ffffff;
             border-radius: 7.5px;
             padding: 10px;
-            margin: 10px 0 ;
+            margin: 10px 0;
             background: beige;
             max-width: 70%;
             transform: translateX(40%);
@@ -65,7 +67,7 @@
         }
 
         .title {
-            position:sticky;
+            position: sticky;
             top: -4%;
             left: -3%;
             height: 50px;
@@ -84,6 +86,22 @@
             display: flex;
 
         }
+
+        .typing-indicator {
+            display: none;
+            background: #fff3e0;
+            height: 30px;
+            width: fit-content;
+            border-radius: 16px;
+            padding: 8px 16px;
+            color: #e65100;
+            font-size: 0.5em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 8px 0;
+            align-items: center;
+        }
+
+        
     </style>
 </head>
 
@@ -93,10 +111,11 @@
         <div class="mess">
             <div class="title">
                 <%=title%>
+                <!-- <div class="typing-indicator">Yeah..... You are typing</div> -->
             </div>
             <%for (let i=0; i < messages.length; i++) { %>
-               
-                <div class=<%=messages[i].user.toLowerCase() === "you" ? "mycard" :"card"%> >
+
+                <div class=<%=messages[i].user.toLowerCase()==="you" ? "mycard" :"card"%> >
                     <div class="username">
                         <%=messages[i].user%>
                     </div>
@@ -113,15 +132,55 @@
             <%- include('form')%>
         </div>
     </div>
+
     <script>
-        // Wait for the DOM to load
-        document.addEventListener("DOMContentLoaded", function () {
-          const overflowDiv = document.querySelector(".chatwindow");
-    
-          // Scroll the div to the bottom
-          overflowDiv.scrollTop = overflowDiv.scrollHeight;
+        let typingTimer;
+
+        document.querySelector('#textarea').addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            const typingIndicator = document.querySelector('.typing-indicator');
+            typingIndicator.style.display = 'block';
+
+            typingTimer = setTimeout(() => {
+                typingIndicator.style.display = 'none';
+            }, 1000);
         });
-      </script>
+
+
+
+        function updateMessages(messages) {
+            const messagesHTML = messages.map(message => `
+                <div class="${message.user.toLowerCase() === "you" ? "mycard" : "card"}">
+                    <div class="username">${message.user}</div>
+                    <div class="message">${message.text}</div>
+                    <div class="time">${new Date(message.added).toString()}</div>
+                </div>
+            `).join('');
+
+            document.querySelector(".mess").innerHTML = `
+                <div class="title"><%=title%>
+                    
+                    </div>
+                ${messagesHTML}
+            `;
+        }
+
+        function fetchMessages() {
+            fetch('/messages')
+                .then(response => response.json())
+                .then(messages => {
+                    updateMessages(messages);
+                    const overflowDiv = document.querySelector(".chatwindow");
+                    overflowDiv.scrollTop = overflowDiv.scrollHeight;
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const overflowDiv = document.querySelector(".chatwindow");
+            overflowDiv.scrollTop = overflowDiv.scrollHeight
+            setInterval(fetchMessages, 500);
+        });
+    </script>
 </body>
 
 </html>
